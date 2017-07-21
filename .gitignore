@@ -16,6 +16,7 @@ Cargo.lock
 # Development tools
 .travis.yml
 .idea
+*~
 
 #rustfmt backup files
 *.bk

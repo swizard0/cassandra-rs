@@ -1,11 +1,13 @@
 #[macro_use(stmt)]
 extern crate cassandra_cpp;
+extern crate futures;
 
 mod help;
 
 use cassandra_cpp::*;
-use errors::*;
 use std::collections::HashSet;
+use futures::Future;
+
 
 #[derive(Debug,Eq,PartialEq,Hash)]
 struct Pair {
@@ -16,7 +18,8 @@ struct Pair {
 fn insert_into_batch_with_prepared(session: &Session, pairs: &Vec<Pair>) -> Result<PreparedStatement> {
     let insert_query = "INSERT INTO examples.pairs (key, value) VALUES (?, ?)";
     let prepared = session.prepare(insert_query).unwrap().wait().unwrap();
-    let mut batch = Batch::new(CASS_BATCH_TYPE_LOGGED);
+    let mut batch = Batch::new(BatchType::LOGGED);
+    batch.set_consistency(Consistency::ONE)?;
     for pair in pairs {
         let mut statement = prepared.bind();
         statement.bind(0, pair.key.as_ref())?;
@@ -36,8 +39,8 @@ fn retrieve_batch(session: &Session) -> Vec<Pair> {
     let result = session.execute(&select_query).wait().unwrap();
     result.iter().map(|r| {
         Pair {
-            key: r.get_col(0).expect("Key"),
-            value: r.get_col(1).expect("Value"),
+            key: r.get(0).expect("Key"),
+            value: r.get(1).expect("Value"),
         }
     }).collect()
 }

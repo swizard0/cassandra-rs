@@ -1,11 +1,13 @@
 #[macro_use(stmt)]
 extern crate cassandra_cpp;
+extern crate futures;
 
 mod help;
 
 use cassandra_cpp::*;
-use errors::*;
 use std::collections::HashSet;
+use futures::Future;
+
 
 #[derive(Debug,Eq,PartialEq,Hash)]
 struct Pair {
@@ -39,7 +41,7 @@ fn select_from_maps(session: &Session, key: &str) -> Result<Vec<Pair>> {
     let mut res = vec![];
     for row in result.iter() {
         let column = row.get_column(0).unwrap(); //FIXME
-        let items_iterator: MapIterator = column.map_iter().unwrap();
+        let items_iterator: MapIterator = column.get_map().unwrap();
         for item in items_iterator {
             println!("item: {:?}", item);
             res.push(Pair {

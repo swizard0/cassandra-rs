@@ -9,25 +9,30 @@ exposes the DataStax cpp driver at https://github.com/datastax/cpp-driver/
 in a somewhat-sane crate.
 
 It is a wrapper around the raw driver binding crate [cassandra-cpp-sys](https://github.com/Metaswitch/cassandra-sys-rs).
-For the wrapper to work, you must first have installed the datastax-cpp driver.
+
+[Documentation (crates.io)](https://docs.rs/cassandra-cpp).
+
+
+## Getting started
+
+You can use this crate from cargo with
+
+```toml
+    [dependencies]
+    cassandra-cpp = "0.10"
+```
+
+For this crate to work, you must first have installed the datastax-cpp driver.
 Follow the steps in the
 [cpp driver docs](https://github.com/datastax/cpp-driver/tree/master/topics#installation)
 to do so. Pre-built packages are available for most platforms.
 
 Make sure that the driver (specifically `libcassandra_static.a` and `libcassandra.so`) are in your `/usr/local/lib64/` directory
 
-You can use it from cargo with
-
-```toml
-    [dependencies]
-    cassandra-cpp = "0.8"
-```
-
 
 ## Documentation
 
-You can view the API documentation by running `cargo doc` and visiting
-`target/doc` in your browser.
+See the [API documentation](https://docs.rs/cassandra-cpp).
 
 The [Cassandra Query Language (CQL) documentation](http://docs.datastax.com/en/cql/3.3/cql/cql_reference/cqlCommandsTOC.html)
 is likely to be useful.
@@ -37,12 +42,20 @@ thin wrapper around the DataStax driver, you may also find the DataStax
 [documentation](http://datastax.github.io/cpp-driver/topics/) and
 [API docs](http://datastax.github.io/cpp-driver/api/) useful.
 
+
 ## Example
 
 For a straightforward example see [`simple.rs`](examples/simple.rs).
 
 There are additional examples included with the project in [`tests`](tests/) and
 [`examples`](examples/).
+
+
+## Migrating from version 0.8
+
+The API changed significantly in version 0.10.
+(Version 0.9 was skipped, for consistency with the `cassandra-cpp-sys` version number.)
+For a summary of the main changes, see [`CHANGELOG`](CHANGELOG.md#0100).
 
 
 ## License
@@ -53,7 +66,7 @@ described in [`LICENSE`](LICENSE).
 
 ## Contributing
 
-Please see [`CONTRIBUTING.md`](CONTRIBUTING.md) for details on how to contribute 
+Please see [`CONTRIBUTING.md`](CONTRIBUTING.md) for details on how to contribute
 to this project.
 
 
